@@ -1,0 +1,28 @@
+include <WiFi.h>
+#include <ThingerESP32.h>
+
+#define USERNAME "TU_USUARIO"
+#define DEVICE_ID "TU_DEVICE"
+#define DEVICE_CREDENTIAL "TU_CREDENCIAL"
+
+#define SSID "TU_WIFI"
+#define PASSWORD "TU_PASSWORD"
+
+ThingerESP32 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
+
+int led1 = 5;
+int led2 = 18;
+
+void setup() {
+pinMode(led1, OUTPUT);
+pinMode(led2, OUTPUT);
+
+thing.add_wifi(SSID, PASSWORD);
+
+thing["LED1"] << digitalPin(led1);
+thing["LED2"] << digitalPin(led2);
+}
+
+void loop() {
+thing.handle();
+}
