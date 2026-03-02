@@ -1,0 +1,34 @@
+#include <WiFi.h>
+#include <ThingerESP32.h>
+
+#define USERNAME "TU_USUARIO"
+#define DEVICE_ID "TU_DEVICE"
+#define DEVICE_CREDENTIAL "TU_CREDENCIAL"
+
+#define SSID "TU_WIFI"
+#define PASSWORD "TU_PASSWORD"
+
+ThingerESP32 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
+
+int led = 5;
+int boton = 4;
+
+void setup() {
+pinMode(led, OUTPUT);
+pinMode(boton, INPUT_PULLUP);
+
+thing.add_wifi(SSID, PASSWORD);
+
+thing["Estado_LED"] >> [](pson &out){
+out = digitalRead(led);
+};
+}
+
+void loop() {
+if(digitalRead(boton) == LOW){
+digitalWrite(led, !digitalRead(led));
+delay(300);
+}
+
+thing.handle();
+}
